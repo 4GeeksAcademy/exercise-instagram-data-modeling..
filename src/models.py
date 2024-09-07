@@ -1,3 +1,4 @@
+import enum
 import os
 import sys
 from sqlalchemy import Column, ForeignKey, Integer, String
@@ -25,10 +26,40 @@ class Address(Base):
     person_id = Column(Integer, ForeignKey('person.id'))
     person = relationship(Person)
 
+class MyEnum(enum.Enum):
+    
+
+class User(Base):
+    __tablename__ = 'User'
+    id = Column(Integer, primary_key = True)
+    username = Column(String(250), nullable=False)
+    firstname = Column(String(250), nullable=False)
+    lastname = Column(String(250), nullable=False)
+    email = Column(String(250))
+
+class Post(Base):
+    __tablename__ = 'post'
+    id = Column(Integer, primary_key = True)
+    user_id = Column(Integer, ForeignKey(User.id))
+
+class Media(Base):
+    __tablename__ = "media"
+    id = Column(Integer, primary_key=True)
+    type = Column(Enum(MyEnum), nullable=False)
+    url = Column(String(250))
+    post_id = Column(String(250), ForeignKey('post.id'))
+
+class Comment(Base):
+    __tablename__ = "comment"
+    id = Column(Integer, primary_key=True)
+    type = Column(String(250), nullable=False)
+    author_id = Column(String(250), ForeignKey('User.id'))
+    post_id = Column(String(250), ForeignKey('User.id'))
+
     def to_dict(self):
         return {}
 
-## Draw from SQLAlchemy base
+
 try:
     result = render_er(Base, 'diagram.png')
     print("Success! Check the diagram.png file")
