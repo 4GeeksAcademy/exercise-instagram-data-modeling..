@@ -33,7 +33,7 @@ class MyEnum(enum.Enum):
     post = 4#
 
 class User(Base):
-    __tablename__ = 'User'
+    __tablename__ = 'user'
     id = Column(Integer, primary_key = True)
     username = Column(String(250), nullable=False)
     firstname = Column(String(250), nullable=False)
@@ -63,8 +63,8 @@ class Comment(Base):
     __tablename__ = "comment"
     id = Column(Integer, primary_key=True)
     type = Column(String(250), nullable=False)
-    author_id = Column(String(250), ForeignKey('User.id'))
-    post_id = Column(String(250), ForeignKey('User.id'))
+    author_id = Column(String(250), ForeignKey('user.id'))
+    post_id = Column(String(250), ForeignKey('post.id'))
 
     def to_dict(self):
         return {}
@@ -72,8 +72,8 @@ class Comment(Base):
 class Follower(Base):
     __tablename__ = 'follower'
     id = Column(Integer, primary_key=True)
-    user_from_id = Column(Integer, ForeignKey('User.id'))
-    user_to_id = Column(Integer, ForeignKey('User.id'))
+    user_from_id = Column(Integer, ForeignKey('user.id'))
+    user_to_id = Column(Integer, ForeignKey('user.id'))
     def to_dict(self):
         return {}
 
